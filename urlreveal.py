@@ -72,7 +72,7 @@ class Reveal(webapp.RequestHandler):
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
                                       ('/reveal', Reveal)],
-                                     debug=True)
+                                     debug=False)
 
 def reveal(url):
     crawler = urllib2.build_opener()
