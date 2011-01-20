@@ -15,7 +15,7 @@ header = """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www
 <meta name="robots" content="noodp, noydir" />
 <meta name="description" content="Reveal the page behind short URL and redirects." />
 <meta name="keywords" content="urlreveal, url reveal, url,redirect,url redirect" />
-<link rel="canonical" href="http://urlreveal.tmwiw.com/" />
+<link rel="stylesheet" href="/style/urlreveal.css" type="text/css" media="screen, projection" />
 <!-- <link rel="SHORTCUT ICON" href="http://cdn.pmylund.com/favicon.ico" /> -->
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -65,7 +65,7 @@ class Reveal(webapp.RequestHandler):
         elif revealed == '404':
             self.response.out.write('404: The URL provided was invalid.')
         else:
-            self.response.out.write('{0} leads to <a href="{1}" rel="nofollow">{1}</a>'.format(url, revealed))
+            self.response.out.write('%s leads to <a href="%s" rel="nofollow">%s</a>' % (url, revealed, revealed))
         self.response.out.write("</p>")
         self.response.out.write(footer)
 
