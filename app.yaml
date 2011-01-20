@@ -1,0 +1,14 @@
+application: urlreveal
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /
+  script: urlreveal.py
+
+- url: /reveal
+  script: urlreveal.py
+
+- url: /style
+  static_dir: style
