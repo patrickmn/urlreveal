@@ -41,7 +41,7 @@ class Reveal(webapp.RequestHandler):
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
                                       ('/reveal', Reveal)],
-                                     debug=True)
+                                     debug=False)
 
 if __name__ == '__main__':
     run_wsgi_app(application)
