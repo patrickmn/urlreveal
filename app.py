@@ -12,6 +12,9 @@ class MainPage(webapp.RequestHandler):
         self.response.out.write(template.header + template.revealform + template.footer)
 
 class Reveal(webapp.RequestHandler):
+    def get(self):
+        self.redirect('/')
+
     def post(self):
         self.response.out.write(template.header)
         self.response.out.write("""
