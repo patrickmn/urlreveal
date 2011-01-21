@@ -9,7 +9,7 @@ import template
 
 class MainPage(webapp.RequestHandler):
     def get(self):
-        self.response.out.write(template.header, template.revealform, template.footer)
+        self.response.out.write(template.header + template.revealform + template.footer)
 
 class Reveal(webapp.RequestHandler):
     def post(self):

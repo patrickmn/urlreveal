@@ -20,14 +20,14 @@ header = """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www
   })();
 </script>
 </head>
-<body><center>
+<body onLoad="document.forms.revealform.url.focus()"><center>
     <h1>UrlReveal</h1>
 """
 footer = """
 </center>
 </body>
 </html>"""
-revealform = """<form action="/reveal" method="post">
+revealform = """<form action="/reveal" method="post" name="revealform">
     <div><input type="text" name="url" size="60"></input></div>
     <div><input type="submit" value="Show me the real URL"></div>
 </form>"""
