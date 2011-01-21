@@ -19,7 +19,7 @@ class Reveal(webapp.RequestHandler):
         self.response.out.write(template.header)
         self.response.out.write("""
         <p>""")
-        url = self.request.get('url')
+        url = self.request.get('url').strip()
         try:
             if not url.startswith('http://'):
                 revealed = urlreveal.reveal('http://' + url)
