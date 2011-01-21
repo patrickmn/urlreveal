@@ -32,7 +32,7 @@ class Reveal(webapp.RequestHandler):
             elif revealed == '404':
                 self.response.out.write('404: The URL provided was invalid.')
             elif revealed == url:
-                self.response.out.write('<a href="%s" rel="nofollow">%s</a><br /><br />does not redirect elsewhere' % (url, url))
+                self.response.out.write('<a href="%s" rel="nofollow">%s</a><br /><br />does not redirect elsewhere.' % (url, url))
             else:
                 self.response.out.write('%s<br /><br />leads to<br /><br /><a href="%s" rel="nofollow">%s</a>' % (url, revealed, revealed))
         except:
