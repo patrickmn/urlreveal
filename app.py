@@ -9,13 +9,7 @@ import template
 
 class MainPage(webapp.RequestHandler):
     def get(self):
-        self.response.out.write(template.header)
-        self.response.out.write("""<form action="/reveal" method="post">
-    <div><input type="text" name="url" size="60"></input></div>
-    <div><input type="submit" value="Show me the real URL"></div>
-</form>""")
-        self.response.out.write(template.footer)
-
+        self.response.out.write(template.header, template.revealform, template.footer)
 
 class Reveal(webapp.RequestHandler):
     def post(self):
@@ -23,19 +17,25 @@ class Reveal(webapp.RequestHandler):
         self.response.out.write("""
         <p>""")
         url = self.request.get('url')
-        if not url.startswith('http://'):
-            revealed = urlreveal.reveal('http://' + url)
-        else:
-            revealed = urlreveal.reveal(url)
-        if revealed == '301':
-            self.response.out.write('301: The URL provided resulted in too many redirects.')
-        elif revealed == '403':
-            self.response.out.write('403: Forbidden')
-        elif revealed == '404':
-            self.response.out.write('404: The URL provided was invalid.')
-        else:
-            self.response.out.write('%s<br /><br />leads to<br /><br /><a href="%s" rel="nofollow">%s</a>' % (url, revealed, revealed))
-        self.response.out.write("</p>")
+        try:
+            if not url.startswith('http://'):
+                revealed = urlreveal.reveal('http://' + url)
+            else:
+                revealed = urlreveal.reveal(url)
+            if revealed == '301':
+                self.response.out.write('301: The URL provided resulted in too many redirects.')
+            elif revealed == '403':
+                self.response.out.write('403: Forbidden')
+            elif revealed == '404':
+                self.response.out.write('404: The URL provided was invalid.')
+            elif revealed == url:
+                self.response.out.write('<a href="%s" rel="nofollow">%s</a><br /><br />does not redirect elsewhere' % (url, url))
+            else:
+                self.response.out.write('%s<br /><br />leads to<br /><br /><a href="%s" rel="nofollow">%s</a>' % (url, revealed, revealed))
+        except:
+            self.response.out.write('There was an error opening the URL. Please check it and try again.')
+        self.response.out.write("</p><br />")
+        self.response.out.write(template.revealform)
         self.response.out.write(template.footer)
 
 application = webapp.WSGIApplication(

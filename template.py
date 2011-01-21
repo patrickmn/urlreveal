@@ -27,3 +27,7 @@ footer = """
 </center>
 </body>
 </html>"""
+revealform = """<form action="/reveal" method="post">
+    <div><input type="text" name="url" size="60"></input></div>
+    <div><input type="submit" value="Show me the real URL"></div>
+</form>"""
