@@ -1,0 +1,4 @@
+cron:
+- description: Remove stale items from cache
+  url: /cron/gc
+  schedule: every 1 hours
