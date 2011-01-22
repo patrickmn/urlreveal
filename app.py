@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import urllib
 import datetime
 import cgi
 from google.appengine.api import users
