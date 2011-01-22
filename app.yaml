@@ -7,6 +7,9 @@ handlers:
 - url: /
   script: app.py
 
+- url: /about
+  script: app.py
+
 - url: /reveal
   script: app.py
 
