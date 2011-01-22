@@ -7,7 +7,7 @@ def reveal(url):
     url = url.encode('utf-8')
     crawler = urllib2.build_opener()
     crawler.addheaders = [
-        ('User-Agent', 'UrlReveal.com/%s' % __version__),
+        ('User-Agent', 'UrlReveal/%s' % __version__),
         ]
     try:
         f = crawler.open(url)
