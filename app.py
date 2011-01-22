@@ -55,7 +55,6 @@ class Api(Request):
 
     def get(self):
         url = self.request.get('url').strip()
-        result = ''
         try:
             revealed = getRevealed(url)
         except:
