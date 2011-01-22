@@ -19,12 +19,12 @@
   })();
 </script>
 </head>
-<body onLoad="document.forms.revealform.url.focus()">
+<body onload="document.forms['revealform'].url.focus()">
 <div id="container">
     <div id="header">
         <h1>{% block pagetitle %}<a href="/" title="UrlReveal">UrlReveal</a>{% endblock %}</h1>
     </div>
-    <div id="revealform">
+    <div id="formarea">
         {% include "form.html" %}
     </div>
     <div id="content">
