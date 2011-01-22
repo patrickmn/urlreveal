@@ -7,6 +7,12 @@ body
     text-align: center;
 }
 
+div#header a, a:visited, a:hover
+{
+   text-decoration: none;
+   color: #333;
+}
+
 div#content
 {
     margin-top: 36px;
