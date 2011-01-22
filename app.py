@@ -58,9 +58,6 @@ class Reveal(Request):
         self.send(template.revealform)
         self.send(template.footer)
 
-    def send(self, data):
-        return self.response.out.write(data)
-
 def getRevealed(url):
     if not url.startswith('http://'):
         url = 'http://' + url
