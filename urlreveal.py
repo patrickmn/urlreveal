@@ -15,6 +15,7 @@ def reveal(url):
         return location.decode('utf-8')
     except urllib2.HTTPError, e:
         # 301: Too many redirects (infinite loop)
+        # 403: Forbidden
         # 404: Not found
         return str(e.code)
 
