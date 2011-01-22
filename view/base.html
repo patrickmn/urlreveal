@@ -1,13 +1,12 @@
-header = """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" dir="ltr" lang="en-US">
-<head profile="http://gmpg.org/xfn/11">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>UrlReveal</title>
+<title>{% block title %}UrlReveal{% endblock %}</title>
 <meta name="robots" content="noodp, noydir" />
 <meta name="description" content="Reveal the page behind short URL and redirects." />
 <meta name="keywords" content="urlreveal, url reveal, url,redirect,url redirect" />
 <link rel="stylesheet" href="/style/urlreveal.css" type="text/css" media="screen, projection" />
-<!-- <link rel="SHORTCUT ICON" href="http://cdn.pmylund.com/favicon.ico" /> -->
 <script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-270876-26']);
@@ -21,13 +20,10 @@ header = """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www
 </script>
 </head>
 <body onLoad="document.forms.revealform.url.focus()"><center>
-    <h1>UrlReveal</h1>
-"""
-footer = """
+    <h1>{% block pagetitle %}UrlReveal{% endblock %}</h1>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
 </center>
 </body>
-</html>"""
-revealform = """<form action="/reveal" name="revealform">
-    <div><input type="text" name="url" size="60"></input></div>
-    <div><input type="submit" value="Show me the real URL"></div>
-</form>"""
+</html>
