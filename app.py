@@ -28,6 +28,9 @@ class Reveal(Request):
 
     def get(self):
         url = self.request.get('url').strip()
+        if not url:
+            self.redirect('/')
+            return
         result = ''
         try:
             revealed = getRevealed(url)
