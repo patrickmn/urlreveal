@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import urllib2
 
 __version__ = '1.0'
@@ -18,4 +19,5 @@ def reveal(url):
         return str(e.code)
 
 if __name__ == '__main__':
-    reveal(sys.argv[1])
+    import sys
+    print reveal(sys.argv[1])
