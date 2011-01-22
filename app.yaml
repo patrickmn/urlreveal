@@ -3,6 +3,8 @@ version: 2
 runtime: python
 api_version: 1
 
+default_expiration: "3650d"
+
 handlers:
 - url: /
   script: app.py
@@ -23,5 +25,5 @@ handlers:
   script: cron/gc.py
   login: admin
 
-- url: /style
-  static_dir: style
+- url: /static
+  static_dir: static
