@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import datetime
-import cgi
+from xml.sax.saxutils import quoteattr, escape
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
@@ -9,49 +9,57 @@ import urlreveal
 import model
 import template
 
-class MainPage(webapp.RequestHandler):
+class Request(webapp.RequestHandler):
+
+    def send(self, data):
+        return self.response.out.write(data)
+
+class MainPage(Request):
 
     def get(self):
-        self.response.out.write(template.header)
-        self.response.out.write(template.revealform)
-        self.response.out.write("""<br />
+        self.send(template.header)
+        self.send(template.revealform)
+        self.send("""<br />
 <p>UrlReveal shows you the page behind a shortened URL. <a href="/about" title="About">Learn more</a>.</p>""")
-        self.response.out.write(template.footer)
+        self.send(template.footer)
 
-class AboutPage(webapp.RequestHandler):
+class AboutPage(Request):
 
     def get(self):
-        self.response.out.write(template.header)
-        self.response.out.write(template.revealform)
-        self.response.out.write("""<br />
+        self.send(template.header)
+        self.send(template.revealform)
+        self.send("""<br />
 <p>UrlReveal shows you where short URLs lead you to before you actually follow them.</p>
 <p>As an example, try entering <a href="http://bit.ly/hixYHw" title="bit.ly link">bit.ly/hixYHw</a> above. Clever!</p>""")
-        self.response.out.write(template.footer)
+        self.send(template.footer)
 
-class Reveal(webapp.RequestHandler):
+class Reveal(Request):
 
     def get(self):
-        self.response.out.write(template.header)
-        self.response.out.write("""
+        self.send(template.header)
+        self.send("""
         <p>""")
         url = self.request.get('url').strip()
         try:
             revealed = getRevealed(url)
             if revealed == '301':
-                self.response.out.write('301: The URL provided resulted in too many redirects.')
+                self.send('301: The URL provided resulted in too many redirects.')
             elif revealed == '403':
-                self.response.out.write('403: Forbidden')
+                self.send('403: Forbidden')
             elif revealed == '404':
-                self.response.out.write('404: The URL provided was invalid.')
+                self.send('404: The URL provided was invalid.')
             elif revealed == url:
-                self.response.out.write('<a href="%s" rel="nofollow">%s</a><br /><br />does not redirect elsewhere.' % (url, url))
+                self.send('<a href=%s rel="nofollow">%s</a><br /><br />does not redirect elsewhere.' % (quoteattr(revealed), escape(revealed)))
             else:
-                self.response.out.write('%s<br /><br />leads to<br /><br /><a href="%s" rel="nofollow">%s</a>' % (url, revealed, revealed))
+                self.send('%s<br /><br />leads to<br /><br /><a href="%s" rel="nofollow">%s</a>' % (escape(url), quoteattr(revealed), escape(revealed)))
         except:
-            self.response.out.write('There was an error opening the URL. Please check it and try again.')
-        self.response.out.write("</p><br />")
-        self.response.out.write(template.revealform)
-        self.response.out.write(template.footer)
+            self.send('There was an error opening the URL. Please check it and try again.')
+        self.send("</p><br />")
+        self.send(template.revealform)
+        self.send(template.footer)
+
+    def send(self, data):
+        return self.response.out.write(data)
 
 def getRevealed(url):
     if not url.startswith('http://'):
