@@ -40,7 +40,7 @@ class Reveal(Request):
             elif revealed == url:
                 result = '<a href=%s rel="nofollow">%s</a><br /><br />does not redirect elsewhere.' % (quoteattr(revealed), escape(revealed))
             else:
-                result = '%s<br /><br />leads to<br /><br /><a href="%s" rel="nofollow">%s</a>' % (escape(url), quoteattr(revealed), escape(revealed))
+                result = '%s<br /><br />leads to<br /><br /><a href=%s rel="nofollow">%s</a>' % (escape(url), quoteattr(revealed), escape(revealed))
         except:
             result = '500: There was an error opening the URL. Please check it and try again.'
         template_values = {
