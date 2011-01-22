@@ -19,11 +19,20 @@
   })();
 </script>
 </head>
-<body onLoad="document.forms.revealform.url.focus()"><center>
-    <h1>{% block pagetitle %}UrlReveal{% endblock %}</h1>
+<body onLoad="document.forms.revealform.url.focus()">
+<div id="container">
+    <div id="header">
+        <h1>{% block pagetitle %}<a href="/" title="UrlReveal">UrlReveal</a>{% endblock %}</h1>
+    </div>
+    <div id="revealform">
+        {% include "form.html" %}
+    </div>
     <div id="content">
         {% block content %}{% endblock %}
     </div>
-</center>
+    <div id="footer">
+        <a href="/about" title="About">About</a> | <a href="/apihelp" title="API">API</a>
+    </div>
+</div>
 </body>
 </html>

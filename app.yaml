@@ -10,6 +10,12 @@ handlers:
 - url: /about
   script: app.py
 
+- url: /api
+  script: app.py
+
+- url: /apihelp
+  script: app.py
+
 - url: /reveal
   script: app.py
 

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}UrlReveal API{% endblock %}
+
+{% block content %}
+<div id="left">
+<p>Simply send a GET request with a 'url' variable to www.urlreveal.com/api, e.g.:<br /><a href="/api?url=http://bit.ly/hixYHw">http://www.urlreveal.com/api?url=http://bit.ly/hixYHw</a></p>
+
+<p>Possible responses are:</p>
+<ul>
+<li><strong>The destination URL</strong>: E.g. http://www.urlreveal.com</li>
+<li><strong>301</strong>: The URL redirects infinitely</li>
+<li><strong>403</strong>: The request was forbidden by the target server</li>
+<li><strong>404</strong>: The URL was not found</li>
+<li><strong>500</strong>: The URL was invalid or resulted in another error</li>
+</ul>
+</div>
+{% endblock %}

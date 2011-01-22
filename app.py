@@ -48,6 +48,22 @@ class Reveal(Request):
         }
         self.send(template.render('view/reveal.html', template_values))
 
+class Api(Request):
+
+    def get(self):
+        url = self.request.get('url').strip()
+        result = ''
+        try:
+            revealed = getRevealed(url)
+        except:
+            revealed = '500'
+        self.send(revealed)
+
+class ApiHelp(Request):
+
+    def get(self):
+        self.send(template.render('view/apihelp.html', dict()))
+
 def getRevealed(url):
     if not url.startswith('http://'):
         url = 'http://' + url
@@ -75,7 +91,9 @@ def getRevealed(url):
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
                                       ('/about', AboutPage),
-                                      ('/reveal', Reveal)],
+                                      ('/reveal', Reveal),
+                                      ('/api', Api),
+                                      ('/apihelp', ApiHelp)],
                                      debug=False)
 
 if __name__ == '__main__':
