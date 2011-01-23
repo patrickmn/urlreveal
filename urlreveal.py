@@ -8,7 +8,7 @@ def reveal(url):
     crawler = urllib2.build_opener()
     crawler.addheaders = [
         ('User-Agent', 'UrlReveal/%s' % __version__),
-        ]
+    ]
     try:
         f = crawler.open(url)
         location = f.geturl()
