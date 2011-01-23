@@ -40,6 +40,8 @@ class Reveal(Request):
                 result = '403: Forbidden'
             elif revealed == '404':
                 result = '404: The URL provided was invalid.'
+            elif revealed == '503':
+                result = '503: The server is unavailable.'
             elif revealed == url:
                 result = '<a href=%s rel="nofollow">%s</a><br /><br />does not redirect elsewhere.' % (quoteattr(revealed), escape(revealed))
             else:
