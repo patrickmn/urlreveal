@@ -71,26 +71,23 @@ class ApiHelp(Request):
 def getRevealed(url):
     if not url.startswith('http://'):
         url = 'http://' + url
-    try:
-        query = model.CachedUrl.gql("WHERE url = :1", url).fetch(1)
-        if query:
-            c = query[0]
-            now = datetime.datetime.now()
-            if now - c.date > datetime.timedelta(hours=1):
-                try:
-                    c.destination = urlreveal.reveal(url)
-                    c.date = now
-                    c.put()
-                except:
-                    return c.destination
-        else:
-            c = model.CachedUrl()
-            c.url = url
-            c.destination = urlreveal.reveal(url)
-            c.put()
-        return c.destination
-    except:
-        return urlreveal.reveal(url)
+    query = model.CachedUrl.gql("WHERE url = :1", url).fetch(1)
+    if query:
+        c = query[0]
+        now = datetime.datetime.now()
+        if now - c.date > datetime.timedelta(hours=1):
+            try:
+                c.destination = urlreveal.reveal(url)
+                c.date = now
+                c.put()
+            except:
+                return c.destination
+    else:
+        c = model.CachedUrl()
+        c.url = url
+        c.destination = urlreveal.reveal(url)
+        c.put()
+    return c.destination
 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),

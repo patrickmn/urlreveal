@@ -8,12 +8,6 @@ body
     margin-top: 10em;
 }
 
-div#header a, a:visited, a:hover
-{
-   text-decoration: none;
-   color: #333;
-}
-
 div#content
 {
     margin-top: 36px;
@@ -25,6 +19,20 @@ div#left
     margin-right: auto;
     width: 40em;
     text-align: left;
+}
+
+div#header
+{
+    display: block;
+    font-size: 2em;
+    margin: 0.67em 0px;
+    font-weight: bold;
+}
+
+div#header a, a:visited, a:hover
+{
+   text-decoration: none;
+   color: #333;
 }
 
 div#footer
