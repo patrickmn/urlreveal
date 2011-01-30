@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import urllib2
+import httplib
 
 __version__ = '1.0'
 crawler = urllib2.build_opener()
@@ -15,13 +16,13 @@ def reveal(url, tries=0):
         f = crawler.open(url)
         location = f.geturl()
         return location.decode('utf-8')
+    except (ValueError, httplib.InvalidURL):
+        return '404'
     except urllib2.HTTPError, e:
         return str(e.code)
-    except ValueError:
-        return '404'
     except:
         if tries >= 3:
-            return '500'
+            raise
         else:
             return reveal(url, tries=tries+1)
 
