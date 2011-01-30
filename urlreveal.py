@@ -9,7 +9,7 @@ crawler.addheaders = [
 ]
 
 def reveal(url, tries=0):
-    if not url.startswith('http://'):
+    if not url.startswith(('http://', 'https://')):
         url = 'http://' + url
     url = url.encode('utf-8')
     try:
