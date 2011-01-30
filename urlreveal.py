@@ -2,12 +2,12 @@
 import urllib2
 
 __version__ = '1.0'
+crawler = urllib2.build_opener()
+crawler.addheaders = [
+    ('User-Agent', 'UrlReveal/%s' % __version__),
+]
 
 def reveal(url, tries=0):
-    crawler = urllib2.build_opener()
-    crawler.addheaders = [
-        ('User-Agent', 'UrlReveal/%s' % __version__),
-    ]
     if not url.startswith('http://'):
         url = 'http://' + url
     url = url.encode('utf-8')
