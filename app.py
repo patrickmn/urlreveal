@@ -69,8 +69,6 @@ class ApiHelp(Request):
         self.send(template.render('view/apihelp.html', dict()))
 
 def getRevealed(url):
-    if not url.startswith('http://'):
-        url = 'http://' + url
     query = model.CachedUrl.gql("WHERE url = :1", url).fetch(1)
     if query:
         c = query[0]
