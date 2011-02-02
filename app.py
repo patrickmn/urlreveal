@@ -7,10 +7,8 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 import urlreveal
 
-# How many seconds to cache pages/results
-url_cache_duration = 3600
-# How many seconds to cache (static) rendered pages
-page_cache_duration = 2592000
+url_cache_duration = 3600     # How many seconds to cache pages/results
+page_cache_duration = 2592000 # How many seconds to cache (static) rendered pages
 
 class Request(webapp.RequestHandler):
 
