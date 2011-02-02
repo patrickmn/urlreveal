@@ -1,13 +1,14 @@
 #!/usr/bin/env python
-import datetime
 from xml.sax.saxutils import quoteattr, escape
-from google.appengine.api import users
+from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 import urlreveal
-import model
+
+# How many seconds to cache results
+cache_duration = 3600
 
 class Request(webapp.RequestHandler):
 
@@ -69,23 +70,12 @@ class ApiHelp(Request):
         self.send(template.render('view/apihelp.html', dict()))
 
 def getRevealed(url):
-    query = model.CachedUrl.gql("WHERE url = :1", url).fetch(1)
-    if query:
-        c = query[0]
-        now = datetime.datetime.now()
-        if now - c.date > datetime.timedelta(hours=1):
-            try:
-                c.destination = urlreveal.reveal(url)
-                c.date = now
-                c.put()
-            except:
-                return c.destination
-    else:
-        c = model.CachedUrl()
-        c.url = url
-        c.destination = urlreveal.reveal(url)
-        c.put()
-    return c.destination
+    memcachekey = 'url|' + url
+    val = memcache.get(memcachekey)
+    if val is None:
+        val = urlreveal.reveal(url)
+        memcache.set(memcachekey, val, cache_duration)
+    return val
 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),

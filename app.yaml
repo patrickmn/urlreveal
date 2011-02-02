@@ -21,10 +21,6 @@ handlers:
 - url: /reveal
   script: app.py
 
-- url: /cron/gc
-  script: cron/gc.py
-  login: admin
-
 - url: /style
   static_dir: style
 
