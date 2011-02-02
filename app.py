@@ -7,8 +7,10 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 import urlreveal
 
-# How many seconds to cache results
-cache_duration = 3600
+# How many seconds to cache pages/results
+url_cache_duration = 3600
+# How many seconds to cache (static) rendered pages
+page_cache_duration = 2592000
 
 class Request(webapp.RequestHandler):
 
@@ -18,35 +20,35 @@ class Request(webapp.RequestHandler):
 class MainPage(Request):
 
     def get(self):
-        self.send(template.render('view/index.html', dict()))
+        self.send(getStaticPage('index', 'view/index.html'))
 
 class AboutPage(Request):
 
     def get(self):
-        self.send(template.render('view/about.html', dict()))
+        self.send(getStaticPage('about', 'view/about.html'))
 
 class Reveal(Request):
 
     def get(self):
+        result = ''
         url = self.request.get('url').strip()
         if not url:
             self.redirect('/')
             return
-        result = ''
         try:
-            revealed = getRevealed(url)
-            if revealed == '301':
+            destination = getDestination(url)
+            if destination == '301':
                 result = '301: The URL provided resulted in too many redirects.'
-            elif revealed == '403':
+            elif destination == '403':
                 result = '403: Forbidden'
-            elif revealed == '404':
+            elif destination == '404':
                 result = '404: The URL provided was invalid.'
-            elif revealed == '503':
+            elif destination == '503':
                 result = '503: The server is unavailable.'
-            elif revealed == url:
-                result = '<a href=%s rel="nofollow">%s</a><br /><br />does not redirect elsewhere.' % (quoteattr(revealed), escape(revealed))
+            elif destination == url:
+                result = '<a href=%s rel="nofollow">%s</a><br /><br />does not redirect elsewhere.' % (quoteattr(destination), escape(destination))
             else:
-                result = '%s<br /><br />leads to<br /><br /><a href=%s rel="nofollow">%s</a>' % (escape(url), quoteattr(revealed), escape(revealed))
+                result = '%s<br /><br />leads to<br /><br /><a href=%s rel="nofollow">%s</a>' % (escape(url), quoteattr(destination), escape(destination))
         except:
             result = '500: There was an error opening the URL. Please check it and try again.'
         template_values = {
@@ -59,22 +61,30 @@ class Api(Request):
     def get(self):
         url = self.request.get('url').strip()
         try:
-            revealed = getRevealed(url)
+            destination = getDestination(url)
         except:
-            revealed = '500'
-        self.send(revealed)
+            destination = '500'
+        self.send(destination)
 
 class ApiHelp(Request):
 
     def get(self):
-        self.send(template.render('view/apihelp.html', dict()))
+        self.send(getStaticPage('apihelp', 'view/apihelp.html'))
 
-def getRevealed(url):
+def getStaticPage(name, file):
+    memcachekey = 'page|' + name
+    val = memcache.get(memcachekey)
+    if val is None:
+        val = template.render(file, dict())
+        memcache.set(memcachekey, val, page_cache_duration)
+    return val
+
+def getDestination(url):
     memcachekey = 'url|' + url
     val = memcache.get(memcachekey)
     if val is None:
         val = urlreveal.reveal(url)
-        memcache.set(memcachekey, val, cache_duration)
+        memcache.set(memcachekey, val, url_cache_duration)
     return val
 
 application = webapp.WSGIApplication(
