@@ -41,6 +41,8 @@ class Reveal(Request):
                 result = '403: Forbidden'
             elif destination == '404':
                 result = '404: The URL provided was invalid.'
+            elif destination == '410':
+                result = '410: The URL provided is no longer available.'
             elif destination == '503':
                 result = '503: The server is unavailable.'
             elif destination == url:
