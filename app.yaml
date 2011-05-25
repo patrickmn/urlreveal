@@ -5,6 +5,9 @@ api_version: 1
 
 default_expiration: "3650d"
 
+builtins:
+- appstats: on
+
 handlers:
 - url: /
   script: app.py
