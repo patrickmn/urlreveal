@@ -9,6 +9,7 @@ crawler.addheaders = [
 ]
 
 def reveal(url, tries=0):
+    # This is important for security, too. urllib accepts "file://"!
     if not url.startswith(('http://', 'https://')):
         url = 'http://' + url
     url = url.encode('utf-8')
